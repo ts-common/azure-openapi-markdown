@@ -3,4 +3,4 @@
 
 export { ReadMeManipulator, SuppressionItem } from "./readMeManipulator"
 export { ReadMeBuilder } from "./readMeBuilder"
-export { base64ToString } from "./gitHubUtils"
+export { base64ToString, stringToBase64 } from "./gitHubUtils"
