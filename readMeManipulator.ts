@@ -106,6 +106,11 @@ const createTagDefinitionYaml = (files: string[]) => ({
     ["input-file"]: files
 });
 
+export const hasSuppressionBlock = (startNode: commonmark.Node) => {
+    const mapping = getCodeBlocksAndHeadings(startNode);
+    return !!mapping.Suppression;
+}
+
 export const getCodeBlocksAndHeadings = (
     startNode: commonmark.Node
 ): { [key: string]: commonmark.Node } => {
