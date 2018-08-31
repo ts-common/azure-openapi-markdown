@@ -86,6 +86,10 @@ export class ReadMeManipulator {
         };
         updateYamlForNode(suppressionNode, updatedSuppressionBlock);
     }
+
+    public addSuppressionBlock(readme: string) {
+        return `${readme}\n\n${this.readMeBuilder.getSuppressionSection()}`;
+    }
 }
 
 const getYamlFromNode = (node: commonmark.Node) => {
