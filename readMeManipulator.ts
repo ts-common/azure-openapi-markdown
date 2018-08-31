@@ -6,7 +6,7 @@ import { ReadMeBuilder } from './readMeBuilder'
 import { Logger } from './logger'
 import * as yaml from 'js-yaml'
 import { base64ToString } from './gitHubUtils';
-import { MarkDownEx, markDownExToString } from "@ts-common/commonmark-to-markdown"
+import { MarkDownEx, markDownExToString, parse } from "@ts-common/commonmark-to-markdown"
 
 export interface SuppressionItem {
     suppress: string;
@@ -53,10 +53,9 @@ export class ReadMeManipulator {
         return reader.parse(str);
     }
 
-    public base64ToTree(base: string): commonmark.Node {
+    public base64ToTree(base: string): MarkDownEx {
         const str = base64ToString(base);
-        const reader = new commonmark.Parser();
-        return reader.parse(str);
+        return parse(str)
     }
 
     public insertTagDefinition(
@@ -77,16 +76,16 @@ export class ReadMeManipulator {
     public addSuppression(
         startNode: commonmark.Node,
         item: SuppressionItem
-      ): void {
+    ): void {
         const mapping = getCodeBlocksAndHeadings(startNode);
         const suppressionNode = mapping.Suppression;
         const suppressionBlock = getYamlFromNode(mapping.Suppression);
         const updatedSuppressionBlock = {
-          ...suppressionBlock,
-          directive: [...suppressionBlock.directive, item]
+            ...suppressionBlock,
+            directive: [...suppressionBlock.directive, item]
         };
         updateYamlForNode(suppressionNode, updatedSuppressionBlock);
-      }
+    }
 }
 
 const getYamlFromNode = (node: commonmark.Node) => {
